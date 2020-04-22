@@ -1,0 +1,71 @@
+import java.util.*;
+class Solution {
+    public int solution(int bridge_length, int weight, int[] truck_weights) {
+        int answer = 0; // 시간
+		int last = 0;
+		int bridge_total = 0;
+		int remain = 0;
+		Queue<truck> on_bridge = new LinkedList<truck>();
+		
+		
+		while(!((on_bridge.isEmpty()) && (last==truck_weights.length))) {
+			//System.out.println("current time : " +answer);
+			
+			
+			if(on_bridge.isEmpty()) {
+				
+			}else if(answer == on_bridge.peek().get_endtime()) {
+				truck out = on_bridge.poll();
+				bridge_total -= out.get_weight();
+				
+				//System.out.println("out"+out.get_weight());
+
+			}
+			// 차량 탈출
+			
+			
+			if(last == truck_weights.length){	
+			}else if(on_bridge.isEmpty()) {
+				on_bridge.add(new truck(truck_weights[last],answer,bridge_length));
+				bridge_total += truck_weights[last];
+				
+				//System.out.println("in"+truck_weights[last]);
+
+				last++;
+			}else if(weight>= (truck_weights[last] + bridge_total)) {
+				on_bridge.add(new truck(truck_weights[last],answer,bridge_length));
+				bridge_total += truck_weights[last];
+				
+				//System.out.println("in"+truck_weights[last]);
+
+				last++;	
+			}
+			// 차량 추가
+			
+
+
+			answer++;
+
+		}
+
+
+		return answer;
+
+	}
+	
+	public static class truck{
+		private int end_time;
+		private int weight;
+		
+		public truck(int weight,int current_time,int how_long) {
+			this.weight = weight;
+			this.end_time = current_time + how_long;
+		}
+		public int get_endtime() {
+			return this.end_time;
+		}
+		public int get_weight() {
+			return this.weight;
+		}
+	}
+}
