@@ -6,8 +6,8 @@ def solution(expression):
     possis = [['*','+','-'],['*','-','+'],['+','*','-'],['+','-','*'],['-','*','+'],['-','+','*']]
     
     ori_orders = []
-    numbers = re.findall('\d+',expression)
-    exp =  re.findall('\D+',expression)
+    numbers = re.findall('\\d+',expression)
+    exp =  re.findall('\\D+',expression)
     
 
     for a in range(len(exp)) :
