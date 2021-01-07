@@ -1,41 +1,26 @@
-import re
-def solution(expression):
-    answer = 0
-    answer_list =[]
+# direction = { '동':0, '서':1, '남':2, '북':3}
+def bfs(direct, start, board):
+    visited = [[False for _ in len(range(board))] for _ in len(range(board))]
+    queue = list([start[0], start[1], direct, 0])
+    answer = int('inf')
+    dx = [1, 0, -1, 0]
+    dy = [0, 1, 0, -1]
+    dd = [0, 2, 1, 3]
+    while queue:
+        y, x, direction, money = queue.pop(0)
+        visited[y][x] = True
+        for idx in range(4):
+            ny = y + dy[idx]
+            nx = x + dx[idx]
+            money += 100 if direction == dd[idx] else 600
+            direction = dd[idx]
+            if ny == len(board) - 1 and nx == len(board) - 1:
+                answer = min(answer, money)
 
-    possis = [['*','+','-'],['*','-','+'],['+','*','-'],['+','-','*'],['-','*','+'],['-','+','*']]
-    
-    ori_orders = []
-    numbers = re.findall('\\d+',expression)
-    exp =  re.findall('\\D+',expression)
-    
-
-    for a in range(len(exp)) :
-        ori_orders.append(numbers[a])
-        ori_orders.append(exp[a])
-    ori_orders.append(numbers[-1])
-
-
-    for possi in possis :
-        orders = ori_orders[:]
-        for cal in possi :
-            while cal in orders :            
-                temp_idx = orders.index(cal)
-                temp_a = int(orders[temp_idx-1])
-                temp_b = int(orders[temp_idx+1])
-                if orders[temp_idx] == '*' :
-                    temp_total = temp_a * temp_b
-                if orders[temp_idx] == '+' :
-                    temp_total = temp_a + temp_b
-                if orders[temp_idx] == '-' :
-                    temp_total = temp_a - temp_b
-                del orders[temp_idx-1]
-                del orders[temp_idx-1]
-                del orders[temp_idx-1]
-                orders.insert(temp_idx-1,temp_total)
-        answer_list.append(abs(int(orders[0])))
-    print(answer_list)
+            if len(board) > ny > 0 and len(board) > nx > 0 and answer < money and visited[ny][nx] == False:
+                queue.append([ny, nx, direction, money])
     return answer
 
-expression = "100-200*300-500+20"
-solution(expression)
+
+def solution(board):
+    return min(bfs(0, [0, 0], board), bfs(2, [0, 0], board))
