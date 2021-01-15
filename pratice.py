@@ -1,61 +1,32 @@
-def solution(numbers, hand):
-    answer = ''
-    left_num = ['1','4','7','*']
-    right_num = ['3','6','9','#']
-    mid_num = ['2','5','8','0']
-    keypad = [['1','2','3'],['4','5','6'],['7','8','9'],['*','0','#']]
+def bfs(board):
+    visited = [[1000000 for _ in range(len(board))] for _ in range(len(board))]
+    queue = [[0, 0, 0, 0], [0, 0, 0, 1]]
+    answer = 1000000
+    dx = [1, 0, -1, 0]
+    dy = [0, 1, 0, -1]
+    dd = [0, 1, 2, 3]
+    count = 0
+    while queue:
+        y, x, direction, money = queue.pop(0)
+        visited[y][x] = min(money, visited[y][x])
+        for idx in range(4):
+            nm = money
+            ny = y + dy[idx]
+            nx = x + dx[idx]
+            nm += 100 if direction == dd[idx] else 600
 
-    left_pos = '*'
-    right_pos = '#'
-    
-    lx = -1
-    ly = -1
-    rx = -1
-    ry = -1
-    nx = -1
-    ny = -1
-
-    
-    
-    for num_int in numbers :
-        num = str(num_int)
-        if num in left_num :
-            left_pos = num
-            answer += 'L'
-        elif num in right_num :
-            right_pos = num
-            answer += 'R'
-        elif num in mid_num :
-            left_distance = 5
-            right_distance = 5
-            
-            for y in range(4) :
-                for x in range(3) :
-                    
-                    if keypad[y][x] == left_pos :
-                        lx = x
-                        ly = y
-                    elif keypad[y][x] == right_pos :
-                        rx = x
-                        ry = y
-                    elif keypad[y][x] == num :
-                        nx = x
-                        ny = y
-            left_distance = abs(lx-nx) + abs(ly-ny)
-            right_distance = abs(rx-nx) + abs(ry-ny)
-            
-            if left_distance > right_distance :
-                answer += 'R'
-                right_pos = num
-            elif right_distance > left_distance :
-                answer += 'L'
-                left_pos = num
-            elif left_distance == right_distance :
-                if hand == 'left' :
-                    answer += 'L'
-                    left_pos = num
-                if hand == 'right' :
-                    answer += 'R'
-                    right_pos = num
-    
+            if ny == len(board) - 1 and nx == len(board) - 1:
+                answer = min(nm, answer)
+                visited[ny][nx] = answer
+            elif len(board) > ny >= 0 and len(board) > nx >= 0 and visited[ny][nx] > nm and board[ny][nx] != 1:
+                queue.append([ny, nx, dd[idx], nm])
+                count += 1
+    print(count)
     return answer
+
+
+def solution(board):
+    return min(bfs(board))
+
+
+print(solution([[0, 0, 0], [0, 0, 0], [0, 0, 0]]))
