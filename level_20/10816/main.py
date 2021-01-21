@@ -1,8 +1,20 @@
-n = input()
-numbers = list(map(int, input().split(' ')))
-numbers.sort()
-m = input()
-finder = list(map(int, input().split(' ')))
+from sys import stdin
 
-for f in finder:
-    print(numbers.count(f), end=' ')
+N = int(input())
+arr_n = list(map(int, stdin.readline().split()))
+M = int(input())
+arr_m = list(map(int, stdin.readline().split()))
+
+dic = dict()
+
+for i in arr_n:
+    try:
+        dic[i] += 1
+    except:
+        dic[i] = 1
+
+for i in arr_m:
+    try:
+        print(dic[i], end=" ")
+    except:
+        print(0, end=" ")
