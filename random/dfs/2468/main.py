@@ -1,3 +1,4 @@
+# 01:01:53.41
 import sys
 N = int(sys.stdin.readline())
 a = []
