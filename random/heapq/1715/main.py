@@ -10,14 +10,13 @@ last = 0
 if len(queue) == 2:
     result = heapq.heappop(queue) + heapq.heappop(queue)
 elif len(queue) == 1:
-    result = heapq.heappop(queue)
+    result = 0
 else:
-    while queue:
+    while len(queue) > 1:
         now = heapq.heappop(queue)
-        if last == 0:
-            last = now + heapq.heappop(queue)
-            result = last
-        else:
-            result += last + now
+        now2 = heapq.heappop(queue)
+        result += now+now2
+        heapq.heappush(queue, now+now2)
 
 print(result)
+# 다시 풀기
