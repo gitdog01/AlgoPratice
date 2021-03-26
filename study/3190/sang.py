@@ -8,9 +8,13 @@ k = int(input())
 
 
 apples = [[0] * n for _ in range(n)]
+6
+6
+
 for _ in range(k):
     x, y = map(int, input().split())
     apples[x][y] = 1
+
 
 l = int(input())
 changes = {}

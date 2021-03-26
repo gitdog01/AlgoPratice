@@ -1,3 +1,4 @@
+from UserString
 import collections
 
 
@@ -19,6 +20,8 @@ class root:
 
             if road[idx] not in now.child:
                 now.child.append(node(road[idx]))
+            else:
+                now = now.child
 
     def delete(self) -> None:
         self.root = node("")
@@ -45,7 +48,7 @@ def solve(directory, command):
     for com in command:
         now = com.split(" ")
         if now[0] == "mkdir":
-            print()
+            myroot.insert(now[0])
         elif now[0] == "cp":
             print()
         elif now[0] == "rm":

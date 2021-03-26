@@ -26,7 +26,6 @@ def solve(road, n):
     m = 0
     answer = 0
     candi = collections.deque([])
-    temp = 0
     for idx in range(len(myroad)):
 
         if myroad[idx] == -1:
