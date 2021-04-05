@@ -1,60 +1,20 @@
-import collections
+import sys
 
 
-class node:
-    def __init__(self, num):
-        self.num = num
-        self.child = []
+def dfs(num, array):
+    array[num] = -2
+    for i in range(len(array)):
+        if num == array[i]:
+            dfs(i, array)
 
 
-class Tree:
-    def __init__(self):
-        self.pivet = 0
-        self.root = node(-1)
+N = int(sys.stdin.readline().replace("\n", ""))
+array = list(map(int, sys.stdin.readline().replace("\n", "").split()))
+k = int(sys.stdin.readline().replace("\n", ""))
 
-    def add(self, num):
-        queue = collections.deque([self.root])
-        while queue:
-            now = queue.popleft()
-            if now.num == num:
-                now.child.append(node(self.pivet))
-                self.pivet += 1
-                return
-            else:
-                for child in now.child:
-                    queue.append(child)
-
-    def delete(self, num):
-        queue = collections.deque([self.root])
-        while queue:
-            now = queue.popleft()
-            for i in range(len(now.child)):
-                if now.child[i].num == num:
-                    now.child.pop(i)
-                    return
-                else:
-                    queue.append(now.child[i])
-
-    def leaf(self):
-        queue = collections.deque([self.root])
-        count = 0
-        while queue:
-            now = queue.popleft()
-            if len(now.child) == 0 and now.num != -1:
-                count += 1
-            for child in now.child:
-                queue.append(child)
-
-        return count
-
-
-n = input()
-array = list(map(int, input().split()))
-d = int(input())
-
-root = Tree()
-
-for i in array:
-    root.add(i)
-root.delete(d)
-print(root.leaf())
+dfs(k, array)
+count = 0
+for i in range(len(array)):
+    if array[i] != -2 and i not in array:
+        count += 1
+print(count)
